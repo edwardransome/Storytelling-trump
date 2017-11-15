@@ -16,9 +16,9 @@ body {
 
 header.masthead {
   background: url('../assets/images/trump_banner.png') no-repeat center center scroll;
-  -webkit-background-size: contain;
+  -webkit-background-size: cover;
   -moz-background-size: cover;
-  background-size: cover;
+  background-size: contain;
   -o-background-size: cover;
 }
 
@@ -35,7 +35,7 @@ header.masthead>.overlay {
     -moz-transition: padding-top 0.3s, padding-bottom 0.3s;
     transition: padding-top 0.3s, padding-bottom 0.3s;
     border: none;
-  background-color: #212529; }
+  background-color: #000000; }
   #mainNav .navbar-toggler {
     font-size: 12px;
     right: 0;
@@ -56,9 +56,9 @@ header.masthead>.overlay {
       color: #FFFFFF;
     }
 #mainNav.navbar-shrink {
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: #212529;}
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #000000;}
 #mainNav.navbar-shrink .navbar-brand {
     font-size: 1em;
      }
