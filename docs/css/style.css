@@ -1,0 +1,15 @@
+body {
+    background-color: palegoldenrod;
+    color: darkred;
+}
+
+.important {
+    background-color: white;
+    border: thin solid red;
+}
+
+.info {
+     background-color: white;
+     border: thin solid blue;
+ }
+
