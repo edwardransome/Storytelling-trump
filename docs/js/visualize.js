@@ -10,7 +10,7 @@
   function loadData(cb){
     console.log("Loading data via csv file")
     d3.csv("data/obama.csv", function(data) {
-      console.log(data[0]);
+      console.log(data);
     });
   }
 
@@ -34,3 +34,4 @@
   });
 
 })();
+
