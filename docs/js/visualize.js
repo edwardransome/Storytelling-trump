@@ -9,9 +9,7 @@
    */
   function loadData(cb){
     console.log("Loading data via csv file")
-    d3.csv("data/obama.csv", function(data) {
-      console.log(data[0]);
-    });
+    d3.csv("data/obama.csv", cb);
   }
 
   function doSequenceOfTasks(tasksAreDone){
@@ -32,5 +30,7 @@
       console.log("Data is available. We have "+ data.length + "tweets to play with");
     }
   });
+
+
 
 })();
