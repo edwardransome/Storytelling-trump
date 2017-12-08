@@ -9,8 +9,8 @@
    */
   function loadData(cb){
     console.log("Loading data via csv file")
-    d3.csv("../data/obama.csv", function(data) {
-      dataset = data.map(function(d) { return [ +d["x-coordinate"], +d["y-coordinate"] ]; });
+    d3.csv("data/obama.csv", function(data) {
+      console.log(data[0]);
     });
   }
 
