@@ -4,11 +4,10 @@ var d3 = require("d3"),
 
 var fill = d3.scaleOrdinal(d3.schemeCategory20);
 
+
 var layout = cloud()
     .size([500, 500])
-    .words([
-      "Hello", "world", "normally", "you", "want", "more", "words",
-      "than", "this"].map(function(d) {
+    .words(["a"].map(function(d) {
       return {text: d, size: 10 + Math.random() * 90, test: "haha"};
     }))
     .padding(5)
