@@ -1,5 +1,4 @@
-var d3 = require("d3"),
-    cloud = require("../index.js");
+cloud = require("../index.js");
 
 var fill = d3.scaleOrdinal(d3.schemeCategory20);
 
