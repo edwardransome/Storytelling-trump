@@ -1,3 +1,6 @@
+require("dc");
+require("crossfilter");
+
 'use strict';
 
 var gainOrLossChart = dc.pieChart('#gain-loss-chart');
