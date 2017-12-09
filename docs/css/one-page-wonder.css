@@ -15,8 +15,8 @@ body {
 }
 
 header.masthead {
-  background: url('../assets/images/trump_banner.png') no-repeat center center scroll;
-    background-color: #050308;
+  background: url('../assets/images/trump_banner.jpg') no-repeat center center scroll;
+    background-color: #FFFFFF;
     border-collapse: collapse;
   -webkit-background-size: cover;
   -moz-background-size: cover;
