@@ -1,5 +1,5 @@
-require("dc");
-require("crossfilter");
+var dc = require("dc");
+var crossfilter = require("crossfilter");
 
 'use strict';
 
@@ -13,9 +13,9 @@ var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
 var nasdaqCount = dc.dataCount('.dc-data-count');
 var nasdaqTable = dc.dataTable('.dc-data-table');
 
-d3.csv('data/trump.csv', function (data) {
-    var dateFormat = d3.time.format('%d-%m-%Y %hh:%mm%ss');
-    var numberFormat = d3.format('.2f');
+d3v3.csv('data/trump.csv', function (data) {
+    var dateFormat = d3v3.timeformat('%d-%m-%Y %hh:%mm%ss');
+    var numberFormat = d3v3.format('.2f');
 
     data.forEach(function (d) {
         d.created_at = dateFormat.parse(d.date);
@@ -28,12 +28,25 @@ d3.csv('data/trump.csv', function (data) {
     var all = ndx.groupAll();
 
     var yearlyDimension = ndx.dimension(function (d) {
-        return d3.time.year(d.created_at).getFullYear();
+        return d3v3.time.year(d.created_at).getFullYear();
     });
 
     var dateDimension = ndx.dimension(function (d) {
         return d.created_at;
     });
 
-
+    nasdaqTable
+        .dimension(dateDimension)
+        .group(function (d){
+            var format=d3v3.format('02d');
+            return d.created_at.getFullYear() + '-' + d.created_at.getMonth();
+        })
+        .size(10)
+        .sortBy(function(d){
+            return d.created_at;
+        })
+        .order(d3v3.ascending)
+        .on('renderlet', function(table){
+            table.selectAll('.dc-table-group').classed('info', true);
+        })
 });

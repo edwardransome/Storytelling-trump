@@ -57,7 +57,17 @@
 
     <svg class="chart"></svg>
 
-
+<div id='data-table'>
+  <div class='header'>
+    <span>Source</span>
+    <span>Tweet</span>
+    <span>Creation date</span>
+    <span>Retweet count</span>
+    <span>Favourite count</span>
+    <span>Is a retweet</span>
+    <span>ID</span>
+  </div>
+</div>
 <section id="rock">
     <div class="container">
         <div class="row align-items-center">
@@ -139,6 +149,19 @@
 
     <!-- Custom scripts -->
     <!-- cloud word scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+    <script>
+      d3v4 = d3
+      window.d3 = null
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script>
+      d3v3 = d3
+      window.d3 = null
+      // test it worked
+      console.log('v3', d3v3.version)
+      console.log('v4', d3v4.version)
+    </script>
     <script src="js/bundle.js"></script>
     <!-- utiliser d3v4 dans d3 -->
 
