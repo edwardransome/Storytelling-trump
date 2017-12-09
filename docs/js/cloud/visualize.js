@@ -1,4 +1,4 @@
-cloud = require("../index.js");
+cloud = require("./index.js");
 
 (function () {
   var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20),
