@@ -8,7 +8,12 @@ cloud = require("../index.js");
     nbMax = 150,
     fontSize, //TODO Enlever ?
     scale = 1,
-    csvPath = "data/wordoccurence.csv";
+    csvPath = "data/wordoccurence.csv",
+    svg = d3v4.select('#cloud').append('svg').attr('width', w).attr('height', h),
+    background = svg.append('g'),
+    cloud = svg.append('g').attr('transform', 'translate(' + [w >> 1,
+      h >> 1] + ')');
+  
 
   console.log("Ready to build cloud");
 
