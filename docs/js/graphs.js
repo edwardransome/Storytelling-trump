@@ -31,19 +31,19 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
         })
         .size(10)
         .columns([
-            function(d) { return d.source; },
-            function(d) { return d.text; },
             function(d) { return d.created_at; },
+            function(d) { return d.text; },
             function(d) { return d.retweet_count; },
             function(d) { return d.favorite_count; },
-            function(d) { return d.is_retweet; },
-            function(d) { return d.id_str; }
             
         ])
         .sortBy(function(d){
             return d.created_at;
         })
-        .order(d3v3.ascending);
+        .order(d3v3.ascending)
+        .on('renderlet', function (table) {
+            table.selectAll('.dc-table-group').classed('info', true);
+        });
     dc.renderAll();
     dc.redrawAll();
 
