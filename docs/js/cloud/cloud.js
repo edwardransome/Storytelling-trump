@@ -6,7 +6,7 @@ var ceciestuntest = [];
 var experiments = d3v4.csv("data/wordoccurence.csv", function (data) {
   data.forEach(function (d) {
     d.occurence = +d.occurence;
-    ceciestuntest.append(d.text);
+    ceciestuntest.push(d.text);
   });
 });
 
