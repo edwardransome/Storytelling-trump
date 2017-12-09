@@ -1,5 +1,5 @@
 d3 = require("d3");
-require("./visualize.js");
+visualize = require("./visualize.js");
 require("./custom.js");
 require("./cloud/cloud.js");
 require("./cloud/d3.layout.cloud.js");

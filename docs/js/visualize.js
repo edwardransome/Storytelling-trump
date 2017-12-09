@@ -32,7 +32,7 @@
     } else {
       console.log(r1);
       console.log(r2);
-      console.log("Data is available. We have " + data.length + "tweets to play with");
+      console.log("Data is available. We have " + data.length + " tweets to play with");
     }
   });
 
