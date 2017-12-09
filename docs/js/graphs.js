@@ -1,6 +1,9 @@
 var dc = require("dc");
 var crossfilter = require("crossfilter");
 
+var trumpChart = dc.lineChart("#dc-trump-chart", "chartGroup");
+var trumpDataTable = dc.dataTable("#data-table");
+
 d3v3.json('data/trumptwitterarchive.json', function (data) {
     var dateFormat = d3v3.time.format('%a %b %d %H:%M:%S %Z %Y');
     var numberFormat = d3v3.format('.2f');
@@ -29,8 +32,7 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
         return d.created_at;
     });
 
-
-    dc.dataTable("#data-table")
+    trumpDataTable
         .dimension(dateDimension)
         .group(function (d){
             var format=d3v3.format('02d');
@@ -56,7 +58,7 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
         .dimension(ndx) // set dimension to all data
         .group(all); // set group to ndx.groupAll()
 
-    dc.lineChart("#dc-trump-chart", "charts")
+    trumpChart
         .renderArea(true)
         .width(990)
         .height(200)
