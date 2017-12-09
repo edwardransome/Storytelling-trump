@@ -5,7 +5,7 @@ cloud = require("../index.js");
 
   console.log("Ready to have fun with D3.js");
   var dataWord = [];
-  var nbmax = 250;
+  var nbmax = 150;
 
   /**
    * First we need to get some data
@@ -23,11 +23,11 @@ cloud = require("../index.js");
       console.log("Data. We have " + dataWord.length + " words to put in cloud");
 
       var layout = cloud()
-        .size([500, 500])
+        .size([1000, 500])
         .words(dataWord.map(function (d) {
           return {text: d.text, size: 10 + Math.random() * 90, test: "haha"};
         }))
-        .padding(5)
+        .padding(2)
         .rotate(function () {
           return (~~(Math.random() * 6) - 3) * 30;
         })
