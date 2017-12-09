@@ -13,8 +13,8 @@ var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
 var nasdaqCount = dc.dataCount('.dc-data-count');
 var nasdaqTable = dc.dataTable('.dc-data-table');
 
-d3v3.csv('data/trump.csv', function (data) {
-    var dateFormat = d3v3.timeformat('%d-%m-%Y %hh:%mm%ss');
+d3v3.csv('data/trumptwitterarchive.csv', function (data) {
+    var dateFormat = d3v3.time.format('%d-%m-%Y %H:%M:%S');
     var numberFormat = d3v3.format('.2f');
 
     data.forEach(function (d) {
