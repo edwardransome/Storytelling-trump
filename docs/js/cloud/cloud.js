@@ -2,15 +2,18 @@ cloud = require("../index.js");
 
 var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20);
 
-var experiments = d3v4.csv("data/wordoccurence.csv", cb);
-experiments.forEach(function(x) {
-  x.occurence = +x.occurence;
+var ceciestuntest = [];
+var experiments = d3v4.csv("data/wordoccurence.csv", function (data) {
+  data.forEach(function (d) {
+    d.occurence = +d.occurence;
+    ceciestuntest.append(d.text);
+  });
 });
 
 var layout = cloud()
   .size([500, 500])
-  .words(experiments.map(function(d) {
-    return {text: d.text, size: 10 + d.occurence * 90, test: "haha"};
+  .words(ceciestuntest.map(function(d) {
+    return {text: d, size: 10 + Math.random() * 90, test: "haha"};
   }))
   .padding(5)
   .rotate(function() { return ~~(Math.random() * 2) * 90; })
