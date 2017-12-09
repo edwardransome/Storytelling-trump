@@ -4,7 +4,8 @@ cloud = require("../index.js");
   var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20);
 
   console.log("Ready to have fun with D3.js");
-   dataWord = []
+  var dataWord = [];
+  var nbmax = 250;
   /**
    * First we need to get some data
    */
@@ -12,23 +13,25 @@ cloud = require("../index.js");
     console.log("Loading data via csv file");
     d3v4.csv("data/wordoccurence.csv", function(data){
       data.forEach(function (d) {
-
-        d.occurence = +d.occurence;
-        dataWord.push(d.text);
+        d.occurrence = +d.occurrence;
+        if(dataWord.length < nbmaxb) {
+          dataWord.push({text: d.text, size: d.occurrence});
+        }
       });
     });
+
+    cb(null,"load data is over");
   }
 
-  function doThis(cb) {
-    cb(null, "result of this");
-  }
-
-  function doThat(cb) {
-
+  function createCloud(cb) {
+    console.log("DATAWOOOORD is available. We have " + dataWord.length + " words.");
+    dataWord.forEach(function(d){
+      console.log(d.text);
+    });
     var layout = cloud()
       .size([500, 500])
       .words(dataWord.map(function(d) {
-        return {text: d, size: 10 + Math.random() * 90, test: "haha"};
+        return {text: d.text, size: 10 + Math.random() * 90, test: "haha"};
       }))
       .padding(5)
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -63,19 +66,17 @@ cloud = require("../index.js");
 
   function doSequenceOfTasks(tasksAreDone) {
     d3v4.queue()
-      .defer(doThis)
       .defer(loadData)
-      .defer(doThat)
+      .defer(createCloud)
       .await(tasksAreDone);
   }
 
-  doSequenceOfTasks(function (err, r1, data, r2) {
+  doSequenceOfTasks(function (err, data, load) {
     if (err) {
       console.log("Could not load data");
       console.log(err);
     } else {
-      console.log(r1);
-      console.log(r2);
+      console.log(load);
       console.log("Data is available. We have " + data.length + " tweets to play with");
     }
   });
