@@ -1,33 +1,34 @@
 cloud = require("../index.js");
 
 (function () {
-  var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20);
+  var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20),
+    w = 960,
+    h = 600,
+    dataWord = [],
+    nbMax = 150,
+    csvPath = "data/wordoccurence.csv";
 
-  console.log("Ready to have fun with D3.js");
-  var dataWord = [];
-  var nbmax = 250;
+  console.log("Ready to build cloud");
 
-  /**
-   * First we need to get some data
-   */
+
   function loadData(cb) {
     console.log("Loading data via csv file");
-    d3v4.csv("data/wordoccurence.csv", function (data) {
+    d3v4.csv(csvPath, function (data) {
 
       data.forEach(function (d) {
-        if (dataWord.length < nbmax) {
+        if (dataWord.length < nbMax) {
           dataWord.push({text: d.text, size: d.occurrence});
         }
       });
 
-      console.log("Data. We have " + dataWord.length + " words to put in cloud");
+      console.log("We have " + dataWord.length + " words to put in cloud");
 
       var layout = cloud()
-        .size([500, 500])
+        .size([w, h])
         .words(dataWord.map(function (d) {
           return {text: d.text, size: 10 + Math.random() * 90, test: "haha"};
         }))
-        .padding(5)
+        .padding(2)
         .rotate(function () {
           return (~~(Math.random() * 6) - 3) * 30;
         })
@@ -37,7 +38,7 @@ cloud = require("../index.js");
         })
         .on("end", draw);
 
-      console.log("layout is starting");
+      console.log("Starting cloud layout");
       layout.start();
 
 
@@ -69,24 +70,19 @@ cloud = require("../index.js");
     });
   }
 
-  function createCloud(cb) {
-
-    cb(null, "do nothing");
-  }
 
   function doSequenceOfTasks(tasksAreDone) {
     d3v4.queue()
       .defer(loadData)
-      .defer(createCloud)
       .await(tasksAreDone);
   }
 
-  doSequenceOfTasks(function (err, data, load) {
+  doSequenceOfTasks(function (err, data) {
     if (err) {
       console.log("Could not load data");
       console.log(err);
     } else {
-      console.log(load);
+      console.log("Cloud is created with");
     }
   });
 
