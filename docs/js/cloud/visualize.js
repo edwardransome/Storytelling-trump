@@ -1,17 +1,15 @@
-cloud = require("../index.js");
+cloud = require("./index.js");
 
 (function () {
   var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20),
     w = 960,
     h = 600,
     dataWord = [],
-    nbMax = 150,
-    fontSize, //TODO Enlever ?
-    scale = 1,
-    csvPath = "data/wordoccurence.csv";
+    csvPath = "data/wordoccurence.csv",
+    nbOccurrenceMax,
+    nbMax = 250;
 
   console.log("Ready to build cloud");
-
 
   function loadData(cb) {
     console.log("Loading data via csv file");
@@ -23,16 +21,15 @@ cloud = require("../index.js");
         }
       });
 
+      nbOccurrenceMax = dataWord[0].size;
+      console.log(nbOccurrenceMax);
       console.log("We have " + dataWord.length + " words to put in cloud");
 
       var layout = cloud()
         .timeInterval(10)
         .size([w, h])
-        .fontSize(function(d){
-          return fontSize( + d.value)
-        })
         .words(dataWord.map(function (d) {
-          return {text: d.text, size: 10 + Math.random() * 90, test: "haha"};
+          return {text: d.text, size: 10 + ((d.size / nbOccurrenceMax)*1.5) * 90};
         }))
         .padding(2)
         .rotate(function () {
@@ -47,11 +44,10 @@ cloud = require("../index.js");
       console.log("Starting cloud layout");
       layout.start();
 
-
       function draw(words) {
         d3v4.select("body").selectAll(".chart")
-          .attr("width", layout.size()[0])
-          .attr("height", layout.size()[1])
+          .attr("width", w)
+          .attr("height", h)
           .append("g")
           .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
           .selectAll("text")
@@ -74,14 +70,6 @@ cloud = require("../index.js");
       }
 
     });
-
-    echoForm = d3v4.select('body').append('form').attr('action', 'https://www.jasondavies.com/echo').attr('target', '_blank').attr('method', 'POST');
-
-    var form = d3v4.select('#form').on('submit', function () {
-      parseText(d3v4.select('#text').property('value')),
-        d3v4.event.preventDefault()
-    });
-
 
   }
 
