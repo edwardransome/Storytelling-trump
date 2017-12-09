@@ -13,17 +13,13 @@ var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
 var nasdaqCount = dc.dataCount('.dc-data-count');
 var nasdaqTable = dc.dataTable('.dc-data-table');
 
-d3v3.csv('data/trumptwitterarchive.csv', function (data) {
+d3v3.json('data/trumptwitterarchive.json', function (data) {
     var dateFormat = d3v3.time.format('%d-%m-%Y %H:%M:%S');
     var numberFormat = d3v3.format('.2f');
-
     data.forEach(function (d) {
-        console.log(d.created_at);
+        //console.log(d.created_at);
         d.created_at = dateFormat.parse(d.created_at);
-        console.log(d.created_at);
-        d.retweet_count = +d.retweet_count
-        d.favorite_count = +d.favorite_count;
-    
+        //console.log(d.created_at);    
     });
 
     var ndx = crossfilter(data);
