@@ -20,13 +20,7 @@ cloud = require("../index.js");
         }
       });
 
-      for (let i = 0; i < data.length; i++) {
-
-      }
-
-      console.log("Data. We have " + dataWord.length + " words to play with");
-      console.log( dataWord[0][0] );
-      console.log( dataWord[0][1] );
+      console.log("Data. We have " + dataWord.length + " words to put in cloud");
 
       var layout = cloud()
         .size([500, 500])
@@ -35,7 +29,7 @@ cloud = require("../index.js");
         }))
         .padding(5)
         .rotate(function () {
-          return ~~(Math.random() * 2) * 90;
+          return (~~(Math.random() * 6) - 3) * 30;
         })
         .font("Impact")
         .fontSize(function (d) {
