@@ -14,7 +14,7 @@
    */
   function loadData(cb) {
     console.log("Loading data via csv file")
-    d3.csv("data/wordoccurence.csv", cb);
+    d3v4.csv("data/wordoccurence.csv", cb);
   }
 
   function doSequenceOfTasks(tasksAreDone) {

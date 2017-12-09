@@ -1,8 +1,8 @@
 cloud = require("../index.js");
 
-var fill = d3.scaleOrdinal(d3.schemeCategory20);
+var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20);
 
-var experiments = d3.csv("data/wordoccurence.csv", cb);
+var experiments = d3v4.csv("data/wordoccurence.csv", cb);
 experiments.forEach(function(x) {
   x.occurence = +x.occurence;
 });
