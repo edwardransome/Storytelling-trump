@@ -2,13 +2,15 @@ cloud = require("../index.js");
 
 var fill = d3.scaleOrdinal(d3.schemeCategory20);
 
+var experiments = d3.csv("data/wordoccurence.csv", cb);
+experiments.forEach(function(x) {
+  x.occurence = +x.occurence;
+});
 
 var layout = cloud()
   .size([500, 500])
-  .words([
-    "Hello", "world", "normally", "you", "want", "more", "words",
-    "than", "this"].map(function(d) {
-    return {text: d, size: 10 + Math.random() * 90, test: "haha"};
+  .words(experiments.map(function(d) {
+    return {text: d.text, size: 10 + d.occurence * 90, test: "haha"};
   }))
   .padding(5)
   .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -17,6 +19,7 @@ var layout = cloud()
   .on("end", draw);
 
 layout.start();
+
 
 function draw(words) {
   d3.select("body").selectAll(".chart")
