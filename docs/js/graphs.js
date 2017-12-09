@@ -18,7 +18,9 @@ d3v3.csv('data/trumptwitterarchive.csv', function (data) {
     var numberFormat = d3v3.format('.2f');
 
     data.forEach(function (d) {
-        d.created_at = dateFormat.parse(d.date);
+        console.log(d.created_at);
+        d.created_at = dateFormat.parse(d.created_at);
+        console.log(d.created_at);
         d.retweet_count = +d.retweet_count
         d.favorite_count = +d.favorite_count;
     
