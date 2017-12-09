@@ -44,7 +44,29 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
         .on('renderlet', function (table) {
             table.selectAll('.dc-table-group').classed('info', true);
         });
+
+    dc.dataCount("#data-count")
+        .dimension(ndx) // set dimension to all data
+        .group(all); // set group to ndx.groupAll()
+
+    dc.lineChart("#trumpChart", "charts")
+        .renderArea(true)
+        .width(990)
+        .height(200)
+        .transitionDuration(1000)
+        .margins({top: 30, right: 50, bottom: 25, left: 40})
+        .dimension(dateDimension)
+        .mouseZoomable(true)
+        .x(d3v3.time.scale().domain([new Date(2009, 0, 1), new Date(2017, 12, 9)]))
+        .round(d3v3.time.month.round)
+        .xUnits(d3v3.time.months)
+        .elasticY(true)
+        .renderHorizontalGridLines(true)
+
+
+
     dc.renderAll();
     dc.redrawAll();
+
 
 });
