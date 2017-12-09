@@ -6,6 +6,8 @@ cloud = require("../index.js");
     h = 600,
     dataWord = [],
     nbMax = 150,
+    fontSize, //TODO Enlever ?
+    scale = 1,
     csvPath = "data/wordoccurence.csv";
 
   console.log("Ready to build cloud");
@@ -24,7 +26,11 @@ cloud = require("../index.js");
       console.log("We have " + dataWord.length + " words to put in cloud");
 
       var layout = cloud()
+        .timeInterval(10)
         .size([w, h])
+        .fontSize(function(d){
+          return fontSize( + d.value)
+        })
         .words(dataWord.map(function (d) {
           return {text: d.text, size: 10 + Math.random() * 90, test: "haha"};
         }))
@@ -68,6 +74,15 @@ cloud = require("../index.js");
       }
 
     });
+
+    echoForm = d3v4.select('body').append('form').attr('action', 'https://www.jasondavies.com/echo').attr('target', '_blank').attr('method', 'POST');
+
+    var form = d3v4.select('#form').on('submit', function () {
+      parseText(d3v4.select('#text').property('value')),
+        d3v4.event.preventDefault()
+    });
+
+
   }
 
 
