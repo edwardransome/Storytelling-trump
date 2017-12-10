@@ -8,7 +8,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
   var dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
   var numberFormat = d3.format('.2f');
 
-  var dateFormatSmall = d3.time.format('%a %b %d %H:%M:%S');
+  var dateFormatSmall = d3.time.format('%B %Y');
 
   data.forEach(function (d) {
     d.created_at = dateFormat.parse(d.created_at);
@@ -135,6 +135,9 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     .xUnits(d3.time.months)
     .elasticY(true)
     .renderHorizontalGridLines(true)
+    .title(function(d){
+
+      return dateFormatSmall(d.key)+"\nNumber of tweets : "+d.value;})
     .xAxis();
 
   //Volume chart
