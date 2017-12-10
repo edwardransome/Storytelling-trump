@@ -11,7 +11,7 @@ For the word cloud, we used a Java 8 program to stream every single tweet body a
 The first 250 words are used to generate the word cloud, with words increasing in size based on their number of occurences.
 
 ### Interactive charts
-The interactive charts use the JSON data as is, with no modification. Using [crossfilter](http://square.github.io/crossfilter/), we can use dimensions to filter the data however we like. The charts are generated using [dc.js](https://dc-js.github.io/dc.js/) and are inspired by the tutorial found [here](http://dc-js.github.io/dc.js/docs/stock.html#section-10) and [here](http://bl.ocks.org/d3noob/6584483).
+The interactive charts use the JSON data as is, with no modification. Using [crossfilter](http://square.github.io/crossfilter/), we can use dimensions to filter the data however we like. The charts are generated using [dc.js](https://dc-js.github.io/dc.js/) and are inspired by the tutorials found [here](http://dc-js.github.io/dc.js/docs/stock.html#section-10) and [here](http://bl.ocks.org/d3noob/6584483).
 
 ## Modification note
 After modifying any of the Javascript files, you must run the `browserify` command to regenerate the `bundle.js` file, which is a bundle containing all of our scripts. To generate this bundle, use the command `browserify js/main.js -o js/bundle.js` from the root folder (in our case, the `docs` folder).
