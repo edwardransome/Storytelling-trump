@@ -44,11 +44,11 @@ d3.json('data/trumptwitterarchive.json', function (data) {
           },
           {
             label: "Retweet count",
-            format:  function(d) { return numberFormat( d.retweet_count); }
+            format:  function(d) { return  d.retweet_count; }
           },
           {
             label: "Favorite count",
-            format:  function(d) { return numberFormat(d.favorite_count);}
+            format:  function(d) { return d.favorite_count;}
           }
         ])
         .sortBy(function(d){
