@@ -3,6 +3,7 @@ window.trumpTimeChart = dc.lineChart('#dc-trump-time-chart');
 window.trumpTimeVolumeChart = dc.barChart('#monthly-volume-chart');
 window.dayOfWeekChart = dc.rowChart('#dc-dayweek-chart');
 window.sourcePie = dc.pieChart('#dc-source-pie-chart');
+window.yearPie = dc.pieChart('#dc-year-pie-chart');
 
 d3.json('data/trumptwitterarchive.json', (data) => {
   const dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
@@ -16,10 +17,14 @@ d3.json('data/trumptwitterarchive.json', (data) => {
   const ndx = crossfilter(data);
   const all = ndx.groupAll();
 
+
   const monthDimension = ndx.dimension(d => d3.time.month(d.created_at));
 
   const monthGroup = monthDimension.group()
     .reduceCount(d => d.created_at);
+
+  const yearDimension = ndx.dimension(d => d.created_at.getFullYear());
+  const yearGroup = yearDimension.group();
 
   // data table
   const dayOfWeek = ndx.dimension((d) => {
@@ -110,7 +115,7 @@ d3.json('data/trumptwitterarchive.json', (data) => {
   trumpTimeChart
     .renderArea(true)
     .width(990)
-    .height(250)
+    .height(270)
     .transitionDuration(500)
     .margins({
       top: 30, right: 50, bottom: 25, left: 40,
@@ -130,7 +135,7 @@ d3.json('data/trumptwitterarchive.json', (data) => {
 
   // Volume chart
   trumpTimeVolumeChart.width(990)
-    .height(40)
+    .height(60)
     .margins({
       top: 0, right: 50, bottom: 20, left: 40,
     })
@@ -174,6 +179,22 @@ d3.json('data/trumptwitterarchive.json', (data) => {
       return `${label}\nNumber of tweets : ${d.value}`;
     })
     .group(sourceGroup);
+
+  // year chart
+  yearPie.width(300)
+    .height(300)
+    .radius(100)
+    .innerRadius(30)
+    .dimension(yearDimension)
+    .title((d) => {
+      let label = d.key;
+      if (all.value()) {
+        label += ` (${Math.floor(d.value / all.value() * 100)}%)`;
+      }
+      return `${label}\nNumber of tweets : ${d.value}`;
+    })
+    .group(yearGroup);
+
 
   dc.renderAll();
   dc.redrawAll();
