@@ -120,7 +120,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
   trumpTimeChart
     .renderArea(true)
     .width(990)
-    .height(200)
+    .height(250)
     .transitionDuration(500)
     .margins({top: 30, right: 50, bottom: 25, left: 40})
     .dimension(monthDimension)
@@ -153,7 +153,8 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     })))
     .round(d3.time.month.round)
     .alwaysUseRounding(true)
-    .xUnits(d3.time.months);
+    .xUnits(d3.time.months)
+    .yAxis().tickFormat(function(v) { return ""; });;
 
   //Day of week chart
   dayOfWeekChart
