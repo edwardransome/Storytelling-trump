@@ -66,6 +66,9 @@ d3.json('data/trumptwitterarchive.json', (data) => {
 
   const retweetDimension = ndx.dimension(d => d.retweet_count);
 
+  //total tweet
+  document.getElementById("total-tweet").innerHTML = data.length;
+
   // data table
   trumpDataTable
     .dimension(retweetDimension)
@@ -75,7 +78,7 @@ d3.json('data/trumptwitterarchive.json', (data) => {
       {
         label: 'Creation date',
         format(d) {
-          const dateFormatTable = d3.time.format('%a %b %d %H:%M:%S');
+          const dateFormatTable = d3.time.format('%a %b %d %Y %H:%M:%S');
           return dateFormatTable(d.created_at);
         },
       },
@@ -124,7 +127,7 @@ d3.json('data/trumptwitterarchive.json', (data) => {
     .group(monthGroup)
     .rangeChart(trumpTimeVolumeChart)
     .brushOn(false)
-    .mouseZoomable(true)
+    .mouseZoomable(false)
     .x(d3.time.scale().domain(d3.extent(data, d => d.created_at)))
     .round(d3.time.month.round)
     .xUnits(d3.time.months)
