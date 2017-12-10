@@ -1,8 +1,8 @@
-var trumpDataTable = dc.dataTable("#data-table");
-var trumpTimeChart = dc.lineChart("#dc-trump-time-chart");
-var trumpTimeVolumeChart = dc.barChart("#monthly-volume-chart");
-var dayOfWeekChart = dc.rowChart("#dc-dayweek-chart");
-var sourcePie = dc.pieChart("#dc-pie-chart");
+ window.trumpDataTable = dc.dataTable("#data-table");
+ window.trumpTimeChart = dc.lineChart("#dc-trump-time-chart");
+ window.trumpTimeVolumeChart = dc.barChart("#monthly-volume-chart");
+ window.dayOfWeekChart = dc.rowChart("#dc-dayweek-chart");
+ window.sourcePie = dc.pieChart("#dc-source-pie-chart");
 
 d3.json('data/trumptwitterarchive.json', function (data) {
   var dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
@@ -152,6 +152,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     .alwaysUseRounding(true)
     .xUnits(d3.time.months);
 
+  //Day of week chart
   dayOfWeekChart
     .width(300)
     .height(300)
@@ -165,6 +166,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     .elasticX(true)
     .xAxis().ticks(4);
 
+  //source chart
   sourcePie.width(300)
     .height(300)
     .radius(100)

@@ -132,64 +132,73 @@
 </div>
 
 <div class='container' style='font: 12px sans-serif;'>
-  
-    <div class="data-count" style="float: left">
-      
-        <h3>Trump's Tweet</h3>
-        <span>
+
+    <div class="row">
+        <div class="data-count" style="float: left">
+
+            <h3>Trump Tweets</h3>
+            <span>
         <span style="color:blue" class="filter-count">a</span>
                 selected out of
                 <span style="color:blue" class="total-count">b</span>
                 records
         <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
             </span>
+        </div>
     </div>
-    
-    <div class='span4' id='dc-dayweek-chart'>
-        <h4>
-          Tweets by day of the week
-          <span>
+
+    <div class="row">
+        <div class='span4' id='dc-dayweek-chart'>
+
+            Tweets by day of the week
+            <span>
             <a class="reset"
-              href="javascript:dayOfWeekChart.filterAll();dc.redrawAll();"
-              style="display: none;">
+               href="javascript:dayOfWeekChart.filterAll();dc.redrawAll();"
+               style="display: none;">
               reset
             </a>
           </span>
-        </h4>
-          <div class="clearfix"></div>
-      </div>
+            <div class="clearfix"></div>
+        </div>
 
-      <div class='span4' id='dc-pie-chart'>
-          <h4>
-          Tweet source
-              <span>
+        <div class='span4' id='dc-source-pie-chart'>
+
+            Tweet source
+            <span>
                 <a class="reset"
-                  href="javascript:sourcePie.filterAll();dc.redrawAll();"
-                  style="display: none;">
+                   href="javascript:sourcePie.filterAll();dc.redrawAll();"
+                   style="display: none;">
                   reset
                 </a>
               </span>
-            </h4>
-          </div>   
 
+        </div>
+    </div>
 
-    <div class='span12' id="dc-trump-time-chart">
-        <span>Number of Tweets</span>
-        <span>
-            <a class="reset" href="javascript:trumpTimeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+    <div class="row">
+        <div class='span12' id="dc-trump-time-chart">
+            Graph of tweets in time
+            <span>
+            <a class="reset" href="javascript:trumpTimeChart.filterAll();dc.redrawAll();"
+               style="display: none;">reset</a>
         </span>
-        <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
+            <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
+        </div>
     </div>
 
-    <div class='span12' id="monthly-volume-chart">
-
+    <div class="row">
+        <div class='span12' id="monthly-volume-chart">
+        
+        </div>
     </div>
 
 
-    <div class='span12'>
-        <table class='table table-hover' id='data-table'>
+    <div class="row">
+        <div class='span12'>
+            <table class='table table-hover' id='data-table'>
 
-        </table>
+            </table>
+        </div>
     </div>
 
 
