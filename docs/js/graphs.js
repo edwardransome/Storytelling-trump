@@ -170,7 +170,12 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     .radius(100)
     .innerRadius(30)
     .dimension(sourceDimension)
-    .title(function(d){return d.value;})
+    .title(function(d){
+      var label = d.key;
+      if (all.value()) {
+        label += ' (' + Math.floor(d.value / all.value() * 100) + '%)';
+      }
+      return label +"\nNumber of tweets : "+d.value;})
     .group(sourceGroup);
 
   dc.renderAll();
