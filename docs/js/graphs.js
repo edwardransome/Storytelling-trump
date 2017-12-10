@@ -29,6 +29,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
         return d.created_at;
     });
 
+    // data table
 
   trumpDataTable
     .dimension(dateDimension)
@@ -65,10 +66,12 @@ d3.json('data/trumptwitterarchive.json', function (data) {
 
 
 
+  // number selected
   dc.dataCount(".data-count")
         .dimension(ndx) // set dimension to all data
         .group(all); // set group to ndx.groupAll()
 
+  //Time chart
     console.log("Starting chart configuration...");
     trumpChart
         .renderArea(true)
@@ -86,9 +89,6 @@ d3.json('data/trumptwitterarchive.json', function (data) {
         .xUnits(d3.time.months)
         .elasticY(true)
         .renderHorizontalGridLines(true);
-
-  console.log("OVER 1 ");
-
 
     dc.renderAll();
     dc.redrawAll();
