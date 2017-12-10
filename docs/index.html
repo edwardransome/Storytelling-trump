@@ -131,8 +131,7 @@
     </div>
 </div>
 
-<div class='container' style='font: 12px sans-serif;'>
-
+<div class="container">
     <div class="row">
         <div class="data-count" style="float: left">
 
@@ -150,45 +149,41 @@
     <div class="row">
         <div class='span4' id='dc-dayweek-chart'>
 
-            Tweets by day of the week
-            <span>
+            <strong>Tweets by day of the week</strong>
+
             <a class="reset"
                href="javascript:dayOfWeekChart.filterAll();dc.redrawAll();"
                style="display: none;">
-              reset
+                 reset
             </a>
-          </span>
+
             <div class="clearfix"></div>
         </div>
 
         <div class='span4' id='dc-source-pie-chart'>
 
-            Tweet source
-            <span>
-                <a class="reset"
-                   href="javascript:sourcePie.filterAll();dc.redrawAll();"
-                   style="display: none;">
-                  reset
-                </a>
-              </span>
-
+            <strong>Tweet source</strong>
+            <a class="reset"
+               href="javascript:sourcePie.filterAll();dc.redrawAll();"
+               style="display: none;">
+                 reset
+            </a>
+            <div class="clearfix"></div>
         </div>
     </div>
 
     <div class="row">
         <div class='span12' id="dc-trump-time-chart">
-            Graph of tweets in time
-            <span>
-            <a class="reset" href="javascript:trumpTimeChart.filterAll();dc.redrawAll();"
-               style="display: none;">reset</a>
-        </span>
+            <strong>Number of tweets over time</strong>
+            <a class="reset" href="javascript:trumpTimeChart.filterAll();trumpTimeVolumeChart.filterAll();dc.redrawAll();"
+               style="display: none;"> reset</a>
             <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
         </div>
     </div>
 
     <div class="row">
         <div class='span12' id="monthly-volume-chart">
-        
+
         </div>
     </div>
 
@@ -200,10 +195,7 @@
             </table>
         </div>
     </div>
-
-
 </div>
-
 
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
