@@ -15,9 +15,20 @@ d3.json('data/trumptwitterarchive.json', (data) => {
     d.created_at = dateFormat.parse(d.created_at);
   });
 
+
+  //total tweet
+  document.getElementById("total-tweet").innerHTML = data.length;
+
+  //To calculate mean
+  var start = new Date(data[0].created_at);
+  var end = new Date(data[data.length-1].created_at);
+  var total_days = Math.abs(d3v4.timeDay.count(start, end));
+  document.getElementById("mean").innerHTML = d3.format('.2f')(data.length/total_days);
+
+
+
   const ndx = crossfilter(data);
   const all = ndx.groupAll();
-
 
   const monthDimension = ndx.dimension(d => d3.time.month(d.created_at));
 
@@ -66,9 +77,6 @@ d3.json('data/trumptwitterarchive.json', (data) => {
   const sourceGroup = sourceDimension.group();
 
   const retweetDimension = ndx.dimension(d => d.retweet_count);
-
-  //total tweet
-  document.getElementById("total-tweet").innerHTML = data.length;
 
   // data table
   trumpDataTable

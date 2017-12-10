@@ -22,7 +22,7 @@ d3.json('data/trumptwitterarchive.json', (data) => {
   var start = new Date(data[0].created_at);
   var end = new Date(data[data.length-1].created_at);
   var total_days = Math.abs(d3v4.timeDay.count(start, end));
-  document.getElementById("mean").innerHTML = (data.length/total_days);
+  document.getElementById("mean").innerHTML = d3.format('.2f')(data.length/total_days);
 
 
 
