@@ -65,7 +65,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
 
 
 
-  dc.dataCount("#data-count")
+  dc.dataCount(".data-count")
         .dimension(ndx) // set dimension to all data
         .group(all); // set group to ndx.groupAll()
 

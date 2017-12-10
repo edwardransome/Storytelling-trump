@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -15,10 +14,10 @@
 
     <!-- Custom styles for this template -->
     <link href="css/one-page-wonder.css" rel="stylesheet">
-    
+
     <!-- DC stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.9/dc.css" rel="stylesheet">
-    
+
 
 </head>
 
@@ -54,74 +53,75 @@
     <div class="overlay">
         <div class="container">
 
-          <h1 class="display-1 text-white">Trump Tweets</h1>
-          <h2 class="display-4 text-white">A short story</h2>
+            <h1 class="display-1 text-white">Trump Tweets</h1>
+            <h2 class="display-4 text-white">A short story</h2>
         </div>
     </div>
 </header>
 
-    <section id="rock">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 order-2">
-                    <div class="p-5">
-                        <img class="img-fluid rounded-circle" src="assets/images/trump_finger.jpg" alt="">
-                    </div>
+<section id="rock">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-2">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="assets/images/trump_finger.jpg" alt="">
                 </div>
-                <div class="col-md-6 order-1">
-                    <div class="p-5">
-                        <h2 class="display-4">What Wikipedia has to say...</h2>
-                        <p> "Trump has frequently used Twitter and other social media
-                           to comment on politicians and celebrities, and he relied
-                            on Twitter significantly to communicate during the 2016
-                             United States presidential election."</p>
-                    </div>
+            </div>
+            <div class="col-md-6 order-1">
+                <div class="p-5">
+                    <h2 class="display-4">What Wikipedia has to say...</h2>
+                    <p> "Trump has frequently used Twitter and other social media
+                        to comment on politicians and celebrities, and he relied
+                        on Twitter significantly to communicate during the 2016
+                        United States presidential election."</p>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <section id="rock2">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="p-5">
-                        <img class="img-fluid rounded-circle" src="assets/images/trump_dat_face.jpg" alt="">
-                    </div>
+    </div>
+</section>
+
+<section id="rock2">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="assets/images/trump_dat_face.jpg" alt="">
                 </div>
-                <div class="col-md-6">
-                    <div class="p-5">
-                        <h2 class="display-4">However...</h2>
-                        <p>"Many of the assertions made by Trump on his Twitter account
-                           have been proven to be false."</p>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-5">
+                    <h2 class="display-4">However...</h2>
+                    <p>"Many of the assertions made by Trump on <a href="https://twitter.com/realdonaldtrump">his
+                        Twitter account</a>
+                        have been proven to be false."</p>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <section id="rock3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 order-2">
-                    <div class="p-5">
-                        <img class="img-fluid rounded-circle" src="assets/images/trump_kiss.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6 order-1">
-                    <div class="p-5">
-                        <h2 class="display-4">Let's have a look, shall we?</h2>
-                        <p>We have obtained over 32 thousand verified Trump Tweets
-                          from the  <a href="http://www.trumptwitterarchive.com/archive">Trump Twitter Archive</a>.
-                          We hope to help you discover some fun things about his social media prescence.
-                           Let's get started! </p>
-                    </div>
+    </div>
+</section>
+
+<section id="rock3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-2">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="assets/images/trump_kiss.jpg" alt="">
                 </div>
             </div>
-    
-          </div>
-        </section>
-    
+            <div class="col-md-6 order-1">
+                <div class="p-5">
+                    <h2 class="display-4">Let's have a look, shall we?</h2>
+                    <p>We have obtained over 32 thousand verified Trump Tweets
+                        from the <a href="http://www.trumptwitterarchive.com/archive">Trump Twitter Archive</a>.
+                        We hope to help you discover some fun things about his social media prescence.
+                        Let's get started! </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 
 <div id="cloud">
     <div class="container">
@@ -132,9 +132,21 @@
 </div>
 
 <div class='container' style='font: 12px sans-serif;'>
-  <table class='table table-hover' id='data-table'>
 
-  </table>
+    <div class="data-count" style="float: left">
+        <h3>Trump's Tweet</h3>
+            <span>
+        <span style="color:blue" class="filter-count">a</span>
+                selected out of
+                <span style="color:blue" class="total-count">b</span>
+                records
+        <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+            </span>
+    </div>
+
+    <table class='table table-hover' id='data-table'>
+
+    </table>
 
     <div id="dc-trump-chart">
         <span>Number of Tweets</span>
@@ -142,12 +154,7 @@
         <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
     </div>
 
-  </div>
 
-
-
-<div id="data-count">
-  <span></span> selected out of <span></span> records
 </div>
 
 
