@@ -66,14 +66,17 @@ d3.json('data/trumptwitterarchive.json', function (data) {
     });
     var sourceGroup = sourceDimension.group();
 
+    var retweetDimension = ndx.dimension(function(d) {
+      return d.retweet_count;
+    });
+
     // data table
   trumpDataTable
-    .dimension(dateDimension)
+    .dimension(retweetDimension)
     .group(function (d) {
-      var format = d3.format('02d');
-      return d.created_at.getFullYear() + '-' + d.created_at.getMonth();
+      return "Most retweeted";
     })
-    .size(10)
+    .size(10)    
     .columns([
       {
         label: "Creation date",
