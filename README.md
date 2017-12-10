@@ -1,6 +1,6 @@
 # Storytelling-trump
-
-## Information
+This is the repository for our storytelling project, which can be found [here](https://edwardransome.github.io/Storytelling-trump/). This project was created for the TWEB 2017 class at the School of Business and Engineering Vaud.
+We decided to take a look at Donald Trump's Twitter and, using an archive of all his tweets, explore his social media presence.
 
 
 ## Data and data treatment
