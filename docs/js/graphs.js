@@ -1,5 +1,5 @@
-var trumpChart = dc.lineChart("#dc-trump-chart", "chartGroup");
 var trumpDataTable = dc.dataTable("#data-table");
+var trumpChart = dc.lineChart("#dc-trump-chart");
 
 d3.json('data/trumptwitterarchive.json', function (data) {
     var dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
@@ -77,10 +77,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
         .transitionDuration(1000)
         .margins({top: 30, right: 50, bottom: 25, left: 40})
         .dimension(monthDimension)
-        .group(function (d) {
-            var format = d3.format('02d');
-            return d.created_at.getFullYear() + '-' + format((d.created_at.getMonth() + 1));
-        })
+        .group(monthGroup)
         .mouseZoomable(true)
         .x(d3.time.scale().domain(d3.extent(data, function(d) {
             return d.created_at;
@@ -89,7 +86,10 @@ d3.json('data/trumptwitterarchive.json', function (data) {
         .xUnits(d3.time.months)
         .elasticY(true)
         .renderHorizontalGridLines(true);
-        
+
+  console.log("OVER 1 ");
+
+
     dc.renderAll();
     dc.redrawAll();
 

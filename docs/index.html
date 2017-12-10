@@ -135,7 +135,7 @@
 
     <div class="data-count" style="float: left">
         <h3>Trump's Tweet</h3>
-            <span>
+        <span>
         <span style="color:blue" class="filter-count">a</span>
                 selected out of
                 <span style="color:blue" class="total-count">b</span>
@@ -144,16 +144,24 @@
             </span>
     </div>
 
-    <table class='table table-hover' id='data-table'>
+        <div class='span12'>
+            <table class='table table-hover' id='data-table'>
 
-    </table>
+            </table>
+        </div>
 
-    <div id="dc-trump-chart">
+
+    <div class='span12' id="dc-trump-chart">
         <span>Number of Tweets</span>
-        <a class="reset" href="javascript:dc.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <span>
+        <a class="reset"
+           href="javascript:trumpChart.filterAll();dc.redrawAll();"
+           style="display: none;">
+            reset
+        </a>
+        </span>
         <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
     </div>
-
 
 </div>
 
