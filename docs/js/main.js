@@ -1,3 +1,3 @@
 require("./cloud/visualize.js")
-require("./custom.js");
-require("./graphs.js");
+require("./css/custom.js");
+require("./charts/graphs.js");
