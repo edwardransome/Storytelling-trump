@@ -102,7 +102,7 @@ d3.json('data/trumptwitterarchive.json', function (data) {
       }
     ])
     .sortBy(function (d) {
-      return d.created_at;
+      return d.retweet_count;
     })
     .order(d3.descending)
     .on('renderlet', function (table) {
