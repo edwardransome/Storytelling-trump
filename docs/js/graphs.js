@@ -1,14 +1,8 @@
-var dc = require("dc");
-var crossfilter = require("crossfilter");
-console.log("V " +d3v3.selectAll('#version').text(dc.version));
+var trumpDataTable = dc.dataTable("#data-table");
 
-var trumpDataTable = dc.dataTable(".data-table");
-
-
-d3v3.json('data/trumptwitterarchive.json', function (data) {
-    var dateFormat = d3v3.time.format('%a %b %d %H:%M:%S %Z %Y');
-    var numberFormat = d3v3.format('.2f');
-
+d3.json('data/trumptwitterarchive.json', function (data) {
+    var dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
+    var numberFormat = d3.format('.2f');
     data.forEach(function (d) {
         d.created_at = dateFormat.parse(d.created_at);
     });
@@ -17,11 +11,11 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
     var all = ndx.groupAll();
 
     // var yearlyDimension = ndx.dimension(function (d) {
-    //     return d3v3.time.year(d.created_at);
+    //     return d3.time.year(d.created_at);
     // });
 
     var monthDimension = ndx.dimension(function (d) {
-        return d3v3.time.month(d.created_at);
+        return d3.time.month(d.created_at);
     });
 
     var monthGroup = monthDimension.group()
@@ -35,7 +29,7 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
     trumpDataTable
         .dimension(dateDimension)
         .group(function (d){
-            var format=d3v3.format('02d');
+            var format=d3.format('02d');
             return d.created_at.getFullYear() + '-' + d.created_at.getMonth();
         })
         .size(10)
@@ -60,10 +54,15 @@ d3v3.json('data/trumptwitterarchive.json', function (data) {
         .sortBy(function(d){
             return d.created_at;
         })
-        .order(d3v3.ascending)
+        .order(d3.descending)
         .on('renderlet', function (table) {
             table.selectAll('.dc-table-group').classed('info', true);
         });
+
+
+    dc.dataCount("#data-count")
+        .dimension(ndx) // set dimension to all data
+        .group(all); // set group to ndx.groupAll()
 
     dc.renderAll();
     dc.redrawAll();
