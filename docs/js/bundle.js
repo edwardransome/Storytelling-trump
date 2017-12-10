@@ -1,4 +1,186 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+window.trumpDataTable = dc.dataTable('#data-table');
+window.trumpTimeChart = dc.lineChart('#dc-trump-time-chart');
+window.trumpTimeVolumeChart = dc.barChart('#monthly-volume-chart');
+window.dayOfWeekChart = dc.rowChart('#dc-dayweek-chart');
+window.sourcePie = dc.pieChart('#dc-source-pie-chart');
+
+d3.json('data/trumptwitterarchive.json', (data) => {
+  const dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
+
+  const dateFormatSmall = d3.time.format('%B %Y');
+
+  data.forEach((d) => {
+    d.created_at = dateFormat.parse(d.created_at);
+  });
+
+  const ndx = crossfilter(data);
+  const all = ndx.groupAll();
+
+  const monthDimension = ndx.dimension(d => d3.time.month(d.created_at));
+
+  const monthGroup = monthDimension.group()
+    .reduceCount(d => d.created_at);
+
+  // data table
+  const dayOfWeek = ndx.dimension((d) => {
+    const day = d.created_at.getDay();
+    switch (day) {
+      case 0:
+        return 'Sunday';
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      default:
+        return 'Not a day';
+    }
+  });
+  const dayOfWeekGroup = dayOfWeek.group();
+
+  const sourceDimension = ndx.dimension((d) => {
+    switch (d.source) {
+      case 'Twitter for Android':
+        return 'Android';
+      case 'Twitter Web Client':
+        return 'Web Client';
+      case 'Twitter for iPhone':
+        return 'iPhone';
+      default:
+        return d.source;
+    }
+  });
+  const sourceGroup = sourceDimension.group();
+
+  const retweetDimension = ndx.dimension(d => d.retweet_count);
+
+  // data table
+  trumpDataTable
+    .dimension(retweetDimension)
+    .group(d => 'Most retweeted')
+    .size(10)
+    .columns([
+      {
+        label: 'Creation date',
+        format(d) {
+          const dateFormatTable = d3.time.format('%a %b %d %H:%M:%S');
+          return dateFormatTable(d.created_at);
+        },
+      },
+      {
+        label: 'Tweet',
+        format(d) {
+          return d.text;
+        },
+      },
+      {
+        label: 'Retweet count',
+        format(d) {
+          return d.retweet_count;
+        },
+      },
+      {
+        label: 'Favorite count',
+        format(d) {
+          return d.favorite_count;
+        },
+      },
+    ])
+    .sortBy(d => d.retweet_count)
+    .order(d3.descending)
+    .on('renderlet', (table) => {
+      table.selectAll('.dc-table-group').classed('info', true);
+    });
+
+
+  // number selected
+  dc.dataCount('.data-count')
+    .dimension(ndx) // set dimension to all data
+    .group(all); // set group to ndx.groupAll()
+
+
+  // Time chart linked with volume chart
+  trumpTimeChart
+    .renderArea(true)
+    .width(990)
+    .height(250)
+    .transitionDuration(500)
+    .margins({
+      top: 30, right: 50, bottom: 25, left: 40,
+    })
+    .dimension(monthDimension)
+    .group(monthGroup)
+    .rangeChart(trumpTimeVolumeChart)
+    .brushOn(false)
+    .mouseZoomable(true)
+    .x(d3.time.scale().domain(d3.extent(data, d => d.created_at)))
+    .round(d3.time.month.round)
+    .xUnits(d3.time.months)
+    .elasticY(true)
+    .renderHorizontalGridLines(true)
+    .title(d => `${dateFormatSmall(d.key)}\nNumber of tweets : ${d.value}`)
+    .xAxis();
+
+  // Volume chart
+  trumpTimeVolumeChart.width(990)
+    .height(40)
+    .margins({
+      top: 0, right: 50, bottom: 20, left: 40,
+    })
+    .dimension(monthDimension)
+    .group(monthGroup)
+    .centerBar(true)
+    .gap(1)
+    .x(d3.time.scale().domain(d3.extent(data, d => d.created_at)))
+    .round(d3.time.month.round)
+    .alwaysUseRounding(true)
+    .xUnits(d3.time.months)
+    .yAxis()
+    .tickFormat(v => '');
+
+  // Day of week chart
+  dayOfWeekChart
+    .width(300)
+    .height(300)
+    .margins({
+      top: 5, left: 10, right: 10, bottom: 20,
+    })
+    .dimension(dayOfWeek)
+    .group(dayOfWeekGroup)
+    .colors(d3.scale.category10())
+    .label(d => d.key)
+    .elasticX(true)
+    .xAxis()
+    .ticks(4);
+
+  // source chart
+  sourcePie.width(300)
+    .height(300)
+    .radius(100)
+    .innerRadius(30)
+    .dimension(sourceDimension)
+    .title((d) => {
+      let label = d.key;
+      if (all.value()) {
+        label += ` (${Math.floor(d.value / all.value() * 100)}%)`;
+      }
+      return `${label}\nNumber of tweets : ${d.value}`;
+    })
+    .group(sourceGroup);
+
+  dc.renderAll();
+  dc.redrawAll();
+});
+
+},{}],2:[function(require,module,exports){
 // Word cloud layout by Jason Davies, https://www.jasondavies.com/wordcloud/
 // Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 
@@ -399,80 +581,65 @@ var spirals = {
   rectangular: rectangularSpiral
 };
 
-},{"d3-dispatch":6}],2:[function(require,module,exports){
-cloud = require("./index.js");
+},{"d3-dispatch":6}],3:[function(require,module,exports){
+cloud = require('./index.js');
 
 (function () {
-  var fill = d3v4.scaleOrdinal(d3v4.schemeCategory20),
-    w = 960,
+  const w = 960,
     h = 600,
-    dataWord = [],
-    csvPath = "data/wordoccurence.csv",
-    nbOccurrenceMax,
+    csvPath = 'data/wordoccurence.csv',
     nbMax = 250;
 
-  console.log("Ready to build cloud");
+  let fill = d3v4.scaleOrdinal(d3v4.schemeCategory20),
+    dataWord = [],
+    nbOccurrenceMax;
+
+  console.log('Ready to build cloud');
 
   function loadData(cb) {
-    console.log("Loading data via csv file");
-    d3v4.csv(csvPath, function (data) {
-
-      data.forEach(function (d) {
+    console.log('Loading data via csv file');
+    d3v4.csv(csvPath, (data) => {
+      data.forEach((d) => {
         if (dataWord.length < nbMax) {
-          dataWord.push({text: d.text, size: d.occurrence});
+          dataWord.push({ text: d.text, size: d.occurrence });
         }
       });
 
       nbOccurrenceMax = dataWord[0].size;
       console.log(nbOccurrenceMax);
-      console.log("We have " + dataWord.length + " words to put in cloud");
+      console.log(`We have ${dataWord.length} words to put in cloud`);
 
-      var layout = cloud()
+      const layout = cloud()
         .timeInterval(10)
         .size([w, h])
-        .words(dataWord.map(function (d) {
-          return {text: d.text, size: 10 + ((d.size / nbOccurrenceMax)*1.5) * 90};
-        }))
+        .words(dataWord.map(d => ({ text: d.text, size: 10 + ((d.size / nbOccurrenceMax) * 1.5) * 90 })))
         .padding(2)
-        .rotate(function () {
-          return (~~(Math.random() * 6) - 3) * 30;
-        })
-        .font("Impact")
-        .fontSize(function (d) {
-          return d.size;
-        })
-        .on("end", draw);
+        .rotate(() => (~~(Math.random() * 6) - 3) * 30)
+        .font('Impact')
+        .fontSize(d => d.size)
+        .on('end', draw);
 
-      console.log("Starting cloud layout");
+      console.log('Starting cloud layout');
       layout.start();
 
       function draw(words) {
-        d3v4.select("body").selectAll(".chart")
-          .attr("width", w)
-          .attr("height", h)
-          .append("g")
-          .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-          .selectAll("text")
+        d3v4.select('body').selectAll('.chart')
+          .attr('width', w)
+          .attr('height', h)
+          .append('g')
+          .attr('transform', `translate(${layout.size()[0] / 2},${layout.size()[1] / 2})`)
+          .selectAll('text')
           .data(words)
-          .enter().append("text")
-          .style("font-size", function (d) {
-            return d.size + "px";
-          })
-          .style("font-family", "Impact")
-          .style("fill", function (d, i) {
-            return fill(i);
-          })
-          .attr("text-anchor", "middle")
-          .attr("transform", function (d) {
-            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-          })
-          .text(function (d) {
-            return d.text;
-          });
+          .enter()
+          .append('text')
+          .style('font-size', d => `${d.size}px`)
+          .style('font-family', 'Impact')
+          .style('fill', (d, i) => fill(i))
+          .attr('text-anchor', 'middle')
+          .attr('transform', d => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
+          .text(d => d.text);
       }
-
     });
-
   }
 
 
@@ -482,18 +649,17 @@ cloud = require("./index.js");
       .await(tasksAreDone);
   }
 
-  doSequenceOfTasks(function (err, data) {
+  doSequenceOfTasks((err, data) => {
     if (err) {
-      console.log("Could not load data");
+      console.log('Could not load data');
       console.log(err);
     } else {
-      console.log("Cloud is created with");
+      console.log('Cloud is created with');
     }
   });
+}());
 
-})();
-
-},{"./index.js":1}],3:[function(require,module,exports){
+},{"./index.js":2}],4:[function(require,module,exports){
 (function($) {
   "use strict"; // Start of use strict
 
@@ -545,194 +711,12 @@ cloud = require("./index.js");
 
 })(jQuery); // End of use strict
 
-},{}],4:[function(require,module,exports){
-window.trumpDataTable = dc.dataTable('#data-table');
-window.trumpTimeChart = dc.lineChart('#dc-trump-time-chart');
-window.trumpTimeVolumeChart = dc.barChart('#monthly-volume-chart');
-window.dayOfWeekChart = dc.rowChart('#dc-dayweek-chart');
-window.sourcePie = dc.pieChart('#dc-source-pie-chart');
-
-d3.json('data/trumptwitterarchive.json', (data) => {
-  const dateFormat = d3.time.format('%a %b %d %H:%M:%S %Z %Y');
-
-  const dateFormatSmall = d3.time.format('%B %Y');
-
-  data.forEach((d) => {
-    d.created_at = dateFormat.parse(d.created_at);
-  });
-
-  const ndx = crossfilter(data);
-  const all = ndx.groupAll();
-
-  const monthDimension = ndx.dimension(d => d3.time.month(d.created_at));
-
-  const monthGroup = monthDimension.group()
-    .reduceCount(d => d.created_at);
-
-  // data table
-  const dayOfWeek = ndx.dimension((d) => {
-    const day = d.created_at.getDay();
-    switch (day) {
-      case 0:
-        return 'Sunday';
-      case 1:
-        return 'Monday';
-      case 2:
-        return 'Tuesday';
-      case 3:
-        return 'Wednesday';
-      case 4:
-        return 'Thursday';
-      case 5:
-        return 'Friday';
-      case 6:
-        return 'Saturday';
-      default:
-        return 'Not a day';
-    }
-  });
-  const dayOfWeekGroup = dayOfWeek.group();
-
-  const sourceDimension = ndx.dimension((d) => {
-    switch (d.source) {
-      case 'Twitter for Android':
-        return 'Android';
-      case 'Twitter Web Client':
-        return 'Web Client';
-      case 'Twitter for iPhone':
-        return 'iPhone';
-      default:
-        return d.source;
-    }
-  });
-  const sourceGroup = sourceDimension.group();
-
-  const retweetDimension = ndx.dimension(d => d.retweet_count);
-
-  // data table
-  trumpDataTable
-    .dimension(retweetDimension)
-    .group(d => 'Most retweeted')
-    .size(10)
-    .columns([
-      {
-        label: 'Creation date',
-        format(d) {
-          const dateFormatTable = d3.time.format('%a %b %d %H:%M:%S');
-          return dateFormatTable(d.created_at);
-        },
-      },
-      {
-        label: 'Tweet',
-        format(d) {
-          return d.text;
-        },
-      },
-      {
-        label: 'Retweet count',
-        format(d) {
-          return d.retweet_count;
-        },
-      },
-      {
-        label: 'Favorite count',
-        format(d) {
-          return d.favorite_count;
-        },
-      },
-    ])
-    .sortBy(d => d.retweet_count)
-    .order(d3.descending)
-    .on('renderlet', (table) => {
-      table.selectAll('.dc-table-group').classed('info', true);
-    });
-
-
-  // number selected
-  dc.dataCount('.data-count')
-    .dimension(ndx) // set dimension to all data
-    .group(all); // set group to ndx.groupAll()
-
-
-  // Time chart linked with volume chart
-  trumpTimeChart
-    .renderArea(true)
-    .width(990)
-    .height(250)
-    .transitionDuration(500)
-    .margins({
-      top: 30, right: 50, bottom: 25, left: 40,
-    })
-    .dimension(monthDimension)
-    .group(monthGroup)
-    .rangeChart(trumpTimeVolumeChart)
-    .brushOn(false)
-    .mouseZoomable(true)
-    .x(d3.time.scale().domain(d3.extent(data, d => d.created_at)))
-    .round(d3.time.month.round)
-    .xUnits(d3.time.months)
-    .elasticY(true)
-    .renderHorizontalGridLines(true)
-    .title(d => `${dateFormatSmall(d.key)}\nNumber of tweets : ${d.value}`)
-    .xAxis();
-
-  // Volume chart
-  trumpTimeVolumeChart.width(990)
-    .height(40)
-    .margins({
-      top: 0, right: 50, bottom: 20, left: 40,
-    })
-    .dimension(monthDimension)
-    .group(monthGroup)
-    .centerBar(true)
-    .gap(1)
-    .x(d3.time.scale().domain(d3.extent(data, d => d.created_at)))
-    .round(d3.time.month.round)
-    .alwaysUseRounding(true)
-    .xUnits(d3.time.months)
-    .yAxis()
-    .tickFormat(v => '');
-
-  // Day of week chart
-  dayOfWeekChart
-    .width(300)
-    .height(300)
-    .margins({
-      top: 5, left: 10, right: 10, bottom: 20,
-    })
-    .dimension(dayOfWeek)
-    .group(dayOfWeekGroup)
-    .colors(d3.scale.category10())
-    .label(d => d.key)
-    .elasticX(true)
-    .xAxis()
-    .ticks(4);
-
-  // source chart
-  sourcePie.width(300)
-    .height(300)
-    .radius(100)
-    .innerRadius(30)
-    .dimension(sourceDimension)
-    .title((d) => {
-      let label = d.key;
-      if (all.value()) {
-        label += ` (${Math.floor(d.value / all.value() * 100)}%)`;
-      }
-      return `${label}\nNumber of tweets : ${d.value}`;
-    })
-    .group(sourceGroup);
-
-  dc.renderAll();
-  dc.redrawAll();
-});
-
 },{}],5:[function(require,module,exports){
 require("./cloud/visualize.js")
-require("./custom.js");
-require("./graphs.js");
+require("./css/custom.js");
+require("./charts/graphs.js");
 
-},{"./cloud/visualize.js":2,"./custom.js":3,"./graphs.js":4}],6:[function(require,module,exports){
+},{"./charts/graphs.js":1,"./cloud/visualize.js":3,"./css/custom.js":4}],6:[function(require,module,exports){
 // https://d3js.org/d3-dispatch/ Version 1.0.3. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
